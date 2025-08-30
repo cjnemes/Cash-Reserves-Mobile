@@ -99,6 +99,9 @@ struct AccountEditorView: View {
     @State private var selectedTierName: String = ""
     @State private var markPreferred: Bool = false
     @Environment(\.dismiss) private var dismiss
+    @FocusState private var balanceFocused: Bool
+    @FocusState private var apyFocused: Bool
+    @FocusState private var capFocused: Bool
 
     var body: some View {
         NavigationStack {
@@ -120,11 +123,15 @@ struct AccountEditorView: View {
                         TextField("e.g., 12000", text: $balance)
                             .keyboardType(.decimalPad)
                             .textInputAutocapitalization(.never)
+                            .focused($balanceFocused)
+                            .onChange(of: balanceFocused) { foc in if !foc { balance = InputFormatters.formatCurrencyString(balance) } }
                     }
                     LabeledContent("APY %") {
                         TextField("e.g., 4.25", text: $apy)
                             .keyboardType(.decimalPad)
                             .textInputAutocapitalization(.never)
+                            .focused($apyFocused)
+                            .onChange(of: apyFocused) { foc in if !foc { apy = InputFormatters.formatPercentString(apy) } }
                     }
                     LabeledContent("Weight") {
                         TextField("e.g., 2", text: $weight)
@@ -135,6 +142,8 @@ struct AccountEditorView: View {
                         TextField("leave blank for no cap", text: $cap)
                             .keyboardType(.decimalPad)
                             .textInputAutocapitalization(.never)
+                            .focused($capFocused)
+                            .onChange(of: capFocused) { foc in if !foc && !cap.isEmpty { cap = InputFormatters.formatCurrencyString(cap) } }
                     }
                     LabeledContent("Notes") {
                         TextField("optional", text: $notes)

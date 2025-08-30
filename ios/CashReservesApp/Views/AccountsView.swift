@@ -21,17 +21,14 @@ struct AccountsView: View {
                                 Text("No accounts in this tier.").foregroundStyle(.secondary)
                             } else {
                                 ForEach(Array(tier.accounts.enumerated()), id: \.1.name) { aIndex, a in
-                                    Button {
-                                        editContext = AccountEditContext(tierIndex: tierIndex, accountIndex: aIndex)
-                                    } label: {
-                                        HStack {
-                                            VStack(alignment: .leading) {
-                                                Text(a.name)
-                                                Text("APY: \(a.apyPct, specifier: "%.2f")%  •  W: \(a.allocWeight, specifier: "%.2f")")
-                                                    .font(.caption).foregroundStyle(.secondary)
-                                            }
-                                            Spacer()
-                                            Text(MoneyFormat.format(a.balance))
+                                    Button { editContext = AccountEditContext(tierIndex: tierIndex, accountIndex: aIndex) } label: {
+                                        AccountRowView(account: a, isPreferred: tier.preferredAccount == a.name, privacy: vm.privacyMode)
+                                    }
+                                    .contextMenu {
+                                        if tier.preferredAccount == a.name {
+                                            Button(role: .destructive) { vm.plan.tiers[tierIndex].preferredAccount = nil; vm.save() } label: { Label("Unset Preferred", systemImage: "star.slash.fill") }
+                                        } else {
+                                            Button { vm.plan.tiers[tierIndex].preferredAccount = a.name; vm.save() } label: { Label("Set as Preferred", systemImage: "star.fill") }
                                         }
                                     }
                                 }

@@ -75,29 +75,57 @@ struct AccountEditorView: View {
     var accountIndex: Int?
 
     @State private var name: String = ""
-    @State private var balance: String = "0"
-    @State private var apy: String = "0"
-    @State private var weight: String = "1"
+    @State private var balance: String = ""
+    @State private var apy: String = ""
+    @State private var weight: String = ""
     @State private var cap: String = ""
     @State private var notes: String = ""
+    @State private var selectedTierName: String = ""
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationStack {
             Form {
                 Section("Account") {
-                    TextField("Account name (e.g., Savings)", text: $name)
-                    TextField("Balance (e.g., 12000)", text: $balance)
-                        .keyboardType(.decimalPad)
-                    TextField("APY % (e.g., 4.25)", text: $apy)
-                        .keyboardType(.decimalPad)
-                    TextField("Allocation weight (e.g., 2)", text: $weight)
-                        .keyboardType(.decimalPad)
-                    TextField("Cap (optional, leave blank)", text: $cap)
-                        .keyboardType(.decimalPad)
-                    TextField("Notes (optional)", text: $notes)
+                    LabeledContent("Tier") {
+                        Picker("Tier", selection: $selectedTierName) {
+                            ForEach(vm.plan.tiers.map { $0.name }, id: \.self) { n in
+                                Text(n).tag(n)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                    }
+                    LabeledContent("Name") {
+                        TextField("Savings", text: $name)
+                            .textInputAutocapitalization(.words)
+                    }
+                    LabeledContent("Balance") {
+                        TextField("e.g., 12000", text: $balance)
+                            .keyboardType(.decimalPad)
+                            .textInputAutocapitalization(.never)
+                    }
+                    LabeledContent("APY %") {
+                        TextField("e.g., 4.25", text: $apy)
+                            .keyboardType(.decimalPad)
+                            .textInputAutocapitalization(.never)
+                    }
+                    LabeledContent("Weight") {
+                        TextField("e.g., 2", text: $weight)
+                            .keyboardType(.decimalPad)
+                            .textInputAutocapitalization(.never)
+                    }
+                    LabeledContent("Cap (optional)") {
+                        TextField("leave blank for no cap", text: $cap)
+                            .keyboardType(.decimalPad)
+                            .textInputAutocapitalization(.never)
+                    }
+                    LabeledContent("Notes") {
+                        TextField("optional", text: $notes)
+                    }
                 }
-                Section(footer: Text("Weight controls how new cash is split among accounts within this tier. Cap limits the max for this account.").font(.footnote).foregroundStyle(.secondary)) { EmptyView() }
+                Section(footer: Text("Weight controls how new cash is split among accounts in this tier. Cap limits the max for this account.\nTip: Higher weight = larger share when allocating new money.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)) { EmptyView() }
             }
             .navigationTitle(accountIndex == nil ? "Add Account" : "Edit Account")
             .toolbar {
@@ -117,19 +145,39 @@ struct AccountEditorView: View {
             weight = String(a.allocWeight)
             cap = a.accountTarget.map { String($0) } ?? ""
             notes = a.notes
+        } else {
+            // Defaults for new account: leave fields empty so placeholders and labels are clear
+            if weight.isEmpty { weight = "1" }
         }
+        if selectedTierName.isEmpty { selectedTierName = tier.name }
     }
 
     func save() {
         let acc = Account(
             name: name,
-            balance: Double(balance) ?? 0,
-            apyPct: Double(apy) ?? 0,
+            balance: Double(balance.replacingOccurrences(of: ",", with: "")) ?? 0,
+            apyPct: Double(apy.replacingOccurrences(of: "%", with: "")) ?? 0,
             notes: notes,
             allocWeight: Double(weight) ?? 1,
-            accountTarget: Double(cap)
+            accountTarget: Double(cap.replacingOccurrences(of: ",", with: ""))
         )
-        if let i = accountIndex { tier.accounts[i] = acc } else { tier.accounts.append(acc) }
+        if let i = accountIndex {
+            if selectedTierName == tier.name {
+                tier.accounts[i] = acc
+            } else {
+                // Move to another tier
+                tier.accounts.remove(at: i)
+                if let targetIdx = vm.plan.tiers.firstIndex(where: { $0.name == selectedTierName }) {
+                    vm.plan.tiers[targetIdx].accounts.append(acc)
+                }
+            }
+        } else {
+            if selectedTierName == tier.name {
+                tier.accounts.append(acc)
+            } else if let targetIdx = vm.plan.tiers.firstIndex(where: { $0.name == selectedTierName }) {
+                vm.plan.tiers[targetIdx].accounts.append(acc)
+            }
+        }
         vm.save(); dismiss()
     }
 }

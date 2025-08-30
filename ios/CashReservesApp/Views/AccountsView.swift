@@ -1,11 +1,15 @@
 import SwiftUI
 import ReserveEngine
 
+private struct AccountEditContext: Identifiable {
+    let id = UUID()
+    let tierIndex: Int
+    let accountIndex: Int?
+}
+
 struct AccountsView: View {
     @EnvironmentObject var vm: PlanViewModel
-    @State private var editingTierIndex: Int? = nil
-    @State private var editingAccountIndex: Int? = nil
-    @State private var showEditor = false
+    @State private var editContext: AccountEditContext? = nil
 
     var body: some View {
         NavigationStack {
@@ -18,9 +22,7 @@ struct AccountsView: View {
                             } else {
                                 ForEach(Array(tier.accounts.enumerated()), id: \.1.name) { aIndex, a in
                                     Button {
-                                        editingTierIndex = tierIndex
-                                        editingAccountIndex = aIndex
-                                        showEditor = true
+                                        editContext = AccountEditContext(tierIndex: tierIndex, accountIndex: aIndex)
                                     } label: {
                                         HStack {
                                             VStack(alignment: .leading) {
@@ -35,9 +37,7 @@ struct AccountsView: View {
                                 }
                             }
                             Button {
-                                editingTierIndex = tierIndex
-                                editingAccountIndex = nil
-                                showEditor = true
+                                editContext = AccountEditContext(tierIndex: tierIndex, accountIndex: nil)
                             } label: {
                                 Label("Add Account", systemImage: "plus")
                             }
@@ -46,19 +46,16 @@ struct AccountsView: View {
                 }
             }
             .navigationTitle("Accounts")
-            .sheet(isPresented: $showEditor, onDismiss: { editingTierIndex = nil; editingAccountIndex = nil }) {
-                if let tIdx = editingTierIndex {
-                    AccountEditorView(
-                        tier: Binding(
-                            get: { vm.plan.tiers[tIdx] },
-                            set: { vm.plan.tiers[tIdx] = $0 }
-                        ),
-                        accountIndex: editingAccountIndex
-                    )
-                    .environmentObject(vm)
-                }
+            .sheet(item: $editContext) { ctx in
+                AccountEditorView(
+                    tier: Binding(
+                        get: { vm.plan.tiers[ctx.tierIndex] },
+                        set: { vm.plan.tiers[ctx.tierIndex] = $0 }
+                    ),
+                    accountIndex: ctx.accountIndex
+                )
+                .environmentObject(vm)
             }
         }
     }
 }
-

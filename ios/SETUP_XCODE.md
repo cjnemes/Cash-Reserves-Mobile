@@ -28,6 +28,11 @@ Follow these steps once to get the iOS app running in Xcode:
 - Select an iPhone simulator (e.g., iPhone 15)
 - Press Run (⌘R)
 
+App Icon
+- I included an App Icon asset set at `ios/CashReservesApp/Assets.xcassets/AppIcon.appiconset`.
+- To avoid the default placeholder, drop a 1024×1024 PNG named `AppIcon-1024.png` into that folder in Finder, then drag it into Xcode’s AppIcon grid.
+- Xcode (iOS 16+) accepts a single 1024×1024 image and will derive the rest.
+
 6) Import your existing JSON (optional)
 - Go to Settings tab → Import Plan JSON → pick your desktop reserve_manager.json
 
@@ -37,4 +42,3 @@ Troubleshooting
 - If the package doesn’t link: clean build folder (Shift+⌘K) and rebuild.
 - If previews fail: just run the simulator; previews are optional.
 - If import/export dialogs don’t appear on simulator: make sure you’re on iOS 16+ simulator image.
-

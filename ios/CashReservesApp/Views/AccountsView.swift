@@ -43,6 +43,7 @@ struct AccountsView: View {
                 }
             }
             .navigationTitle("Accounts")
+            .listStyle(.insetGrouped)
             .sheet(item: $editContext) { ctx in
                 AccountEditorView(
                     tier: Binding(

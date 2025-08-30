@@ -31,6 +31,7 @@ struct HistoryView: View {
                 }
             }
             .navigationTitle("History")
+            .listStyle(.insetGrouped)
         }
     }
 

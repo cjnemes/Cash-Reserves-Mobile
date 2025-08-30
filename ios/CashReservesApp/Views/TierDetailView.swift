@@ -1,9 +1,11 @@
 import SwiftUI
 import ReserveEngine
+import UIKit
 
 struct TierDetailView: View {
     @EnvironmentObject var vm: PlanViewModel
     @State var tier: Tier
+    @Environment(\.dismiss) private var dismissScreen
     @State private var editMode: Bool = false
     @State private var newAccount = false
     @State private var editingAccount = false
@@ -80,6 +82,7 @@ struct TierDetailView: View {
             }
         }
         .navigationTitle(tier.name)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Save") { save() }
@@ -98,6 +101,9 @@ struct TierDetailView: View {
             vm.plan.tiers[oldIdx] = tier
         }
         vm.save()
+        // Haptic + dismiss to indicate success
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        dismissScreen()
     }
 }
 

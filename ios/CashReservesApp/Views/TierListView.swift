@@ -25,6 +25,7 @@ struct TierListView: View {
                 .onDelete(perform: deleteTier)
             }
             .navigationTitle("Tiers")
+            .listStyle(.insetGrouped)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button { showAdd = true } label: { Image(systemName: "plus") }

@@ -17,7 +17,12 @@ enum MoneyFormat {
 }
 
 extension View {
-    func sectionCard() -> some View { self.padding().background(.thinMaterial).clipShape(RoundedRectangle(cornerRadius: 12)) }
+    func sectionCard() -> some View {
+        self.padding()
+            .background(.thinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 4)
+    }
 }
 
 // MARK: - Lightweight input formatting helpers

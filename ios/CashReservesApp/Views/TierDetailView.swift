@@ -12,13 +12,29 @@ struct TierDetailView: View {
     var body: some View {
         Form {
             Section("Tier") {
-                TextField("Name", text: Binding(get: { tier.name }, set: { tier.name = $0 }))
-                TextField("Purpose", text: Binding(get: { tier.purpose }, set: { tier.purpose = $0 }))
-                TextField("Target", value: Binding(get: { tier.target }, set: { tier.target = $0 }), formatter: NumberFormatter())
-                Stepper("Priority: \(tier.priority)", value: Binding(get: { tier.priority }, set: { tier.priority = $0 }), in: 1...99)
-                Picker("Preferred Account", selection: Binding(get: { tier.preferredAccount ?? "(None)" }, set: { tier.preferredAccount = $0 == "(None)" ? nil : $0 })) {
-                    Text("(None)").tag("(None)")
-                    ForEach(tier.accounts, id: \.name) { a in Text(a.name).tag(a.name) }
+                LabeledContent("Name") {
+                    TextField("e.g., Tier 1", text: Binding(get: { tier.name }, set: { tier.name = $0 }))
+                        .textInputAutocapitalization(.words)
+                }
+                LabeledContent("Purpose") {
+                    TextField("e.g., Emergency Buffer", text: Binding(get: { tier.purpose }, set: { tier.purpose = $0 }))
+                        .textInputAutocapitalization(.sentences)
+                }
+                LabeledContent("Target") {
+                    TextField("e.g., 30000", value: Binding(get: { tier.target }, set: { tier.target = $0 }), formatter: NumberFormatter())
+                        .keyboardType(.decimalPad)
+                }
+                LabeledContent("Priority") {
+                    Stepper(value: Binding(get: { tier.priority }, set: { tier.priority = $0 }), in: 1...99) {
+                        Text("\(tier.priority)")
+                    }
+                }
+                LabeledContent("Preferred Account") {
+                    Picker("Preferred Account", selection: Binding(get: { tier.preferredAccount ?? "(None)" }, set: { tier.preferredAccount = $0 == "(None)" ? nil : $0 })) {
+                        Text("(None)").tag("(None)")
+                        ForEach(tier.accounts, id: \.name) { a in Text(a.name).tag(a.name) }
+                    }
+                    .pickerStyle(.menu)
                 }
             }
             Section("Accounts") {

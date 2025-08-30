@@ -56,9 +56,9 @@ struct AddTierSheet: View {
         NavigationStack {
             Form {
                 Section("Basics") {
-                    TextField("Name", text: $name)
-                    TextField("Purpose", text: $purpose)
-                    TextField("Target", text: $target).keyboardType(.decimalPad)
+                    LabeledContent("Name") { TextField("e.g., Tier 3", text: $name) }
+                    LabeledContent("Purpose") { TextField("e.g., Capital Expenditures", text: $purpose) }
+                    LabeledContent("Target") { TextField("e.g., 40000", text: $target).keyboardType(.decimalPad) }
                 }
             }
             .navigationTitle("Add Tier")
@@ -75,4 +75,3 @@ struct AddTierSheet: View {
         vm.save(); isPresented = false
     }
 }
-

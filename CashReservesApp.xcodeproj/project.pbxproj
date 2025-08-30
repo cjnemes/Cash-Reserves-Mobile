@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		833D8E0D2E63AB9900D72200 /* CSVExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E0B2E63AB9900D72200 /* CSVExporter.swift */; };
+		833D8E0E2E63AB9900D72200 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E0C2E63AB9900D72200 /* Persistence.swift */; };
+		833D8E132E63ABBB00D72200 /* AccountRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E102E63ABBB00D72200 /* AccountRowView.swift */; };
+		833D8E142E63ABBB00D72200 /* AccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E0F2E63ABBB00D72200 /* AccountsView.swift */; };
+		833D8E152E63ABBB00D72200 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E122E63ABBB00D72200 /* MoreView.swift */; };
 		835669092E635069005DDD93 /* CashReservesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835668F92E635069005DDD93 /* CashReservesApp.swift */; };
 		8356690A2E635069005DDD93 /* TierDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835669052E635069005DDD93 /* TierDetailView.swift */; };
 		8356690B2E635069005DDD93 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835669042E635069005DDD93 /* SettingsView.swift */; };
@@ -39,6 +44,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		833D8E0B2E63AB9900D72200 /* CSVExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CSVExporter.swift; path = Services/CSVExporter.swift; sourceTree = "<group>"; };
+		833D8E0C2E63AB9900D72200 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Persistence.swift; path = Services/Persistence.swift; sourceTree = "<group>"; };
+		833D8E0F2E63ABBB00D72200 /* AccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AccountsView.swift; path = Views/AccountsView.swift; sourceTree = "<group>"; };
+		833D8E102E63ABBB00D72200 /* AccountRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRowView.swift; sourceTree = "<group>"; };
+		833D8E122E63ABBB00D72200 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MoreView.swift; path = Views/MoreView.swift; sourceTree = "<group>"; };
 		835668F92E635069005DDD93 /* CashReservesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashReservesApp.swift; sourceTree = "<group>"; };
 		835668FA2E635069005DDD93 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		835668FC2E635069005DDD93 /* HistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryStore.swift; sourceTree = "<group>"; };
@@ -94,6 +104,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		833D8E112E63ABBB00D72200 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				833D8E102E63ABBB00D72200 /* AccountRowView.swift */,
+			);
+			name = Components;
+			path = Views/Components;
+			sourceTree = "<group>";
+		};
 		835668FB2E635069005DDD93 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +155,11 @@
 		835669082E635069005DDD93 /* CashReservesApp */ = {
 			isa = PBXGroup;
 			children = (
+				833D8E0F2E63ABBB00D72200 /* AccountsView.swift */,
+				833D8E112E63ABBB00D72200 /* Components */,
+				833D8E122E63ABBB00D72200 /* MoreView.swift */,
+				833D8E0B2E63AB9900D72200 /* CSVExporter.swift */,
+				833D8E0C2E63AB9900D72200 /* Persistence.swift */,
 				835668FB2E635069005DDD93 /* App */,
 				835668FD2E635069005DDD93 /* Services */,
 				835668FF2E635069005DDD93 /* ViewModels */,
@@ -314,12 +338,17 @@
 				8356690A2E635069005DDD93 /* TierDetailView.swift in Sources */,
 				8356690B2E635069005DDD93 /* SettingsView.swift in Sources */,
 				8356690C2E635069005DDD93 /* RebalanceView.swift in Sources */,
+				833D8E132E63ABBB00D72200 /* AccountRowView.swift in Sources */,
+				833D8E142E63ABBB00D72200 /* AccountsView.swift in Sources */,
+				833D8E152E63ABBB00D72200 /* MoreView.swift in Sources */,
 				8356690D2E635069005DDD93 /* PlanViewModel.swift in Sources */,
 				8356690E2E635069005DDD93 /* HistoryView.swift in Sources */,
 				8356690F2E635069005DDD93 /* HistoryStore.swift in Sources */,
 				835669102E635069005DDD93 /* PlannerView.swift in Sources */,
 				835669112E635069005DDD93 /* DashboardView.swift in Sources */,
 				835669122E635069005DDD93 /* Theme.swift in Sources */,
+				833D8E0D2E63AB9900D72200 /* CSVExporter.swift in Sources */,
+				833D8E0E2E63AB9900D72200 /* Persistence.swift in Sources */,
 				835669132E635069005DDD93 /* TierListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -28,6 +28,7 @@ DerivedData/
 *.xcuserstate
 .swiftpm/
 .build/
+CashReservesApp/
 
 # App data (user-specific)
 history.json
@@ -35,4 +36,3 @@ reserve_manager.json
 
 # Logs
 *.log
-

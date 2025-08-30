@@ -81,6 +81,7 @@ struct AccountEditorView: View {
     @State private var cap: String = ""
     @State private var notes: String = ""
     @State private var selectedTierName: String = ""
+    @State private var markPreferred: Bool = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -123,6 +124,9 @@ struct AccountEditorView: View {
                         TextField("optional", text: $notes)
                     }
                 }
+                Section {
+                    Toggle("Mark as Preferred in this tier", isOn: $markPreferred)
+                }
                 Section(footer: Text("Weight controls how new cash is split among accounts in this tier. Cap limits the max for this account.\nTip: Higher weight = larger share when allocating new money.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)) { EmptyView() }
@@ -150,6 +154,13 @@ struct AccountEditorView: View {
             if weight.isEmpty { weight = "1" }
         }
         if selectedTierName.isEmpty { selectedTierName = tier.name }
+        // Preferred toggle defaults
+        if let i = accountIndex {
+            let a = tier.accounts[i]
+            markPreferred = (tier.preferredAccount == a.name)
+        } else {
+            markPreferred = false
+        }
     }
 
     func save() {
@@ -163,19 +174,28 @@ struct AccountEditorView: View {
         )
         if let i = accountIndex {
             if selectedTierName == tier.name {
+                // Same tier update
+                let oldName = tier.accounts[i].name
                 tier.accounts[i] = acc
+                if markPreferred { tier.preferredAccount = acc.name }
+                else if tier.preferredAccount == oldName { tier.preferredAccount = nil }
             } else {
                 // Move to another tier
+                let oldName = tier.accounts[i].name
                 tier.accounts.remove(at: i)
                 if let targetIdx = vm.plan.tiers.firstIndex(where: { $0.name == selectedTierName }) {
                     vm.plan.tiers[targetIdx].accounts.append(acc)
+                    if markPreferred { vm.plan.tiers[targetIdx].preferredAccount = acc.name }
                 }
+                if tier.preferredAccount == oldName { tier.preferredAccount = nil }
             }
         } else {
             if selectedTierName == tier.name {
                 tier.accounts.append(acc)
+                if markPreferred { tier.preferredAccount = acc.name }
             } else if let targetIdx = vm.plan.tiers.firstIndex(where: { $0.name == selectedTierName }) {
                 vm.plan.tiers[targetIdx].accounts.append(acc)
+                if markPreferred { vm.plan.tiers[targetIdx].preferredAccount = acc.name }
             }
         }
         vm.save(); dismiss()

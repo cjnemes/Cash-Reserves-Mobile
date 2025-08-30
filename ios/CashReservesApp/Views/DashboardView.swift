@@ -10,6 +10,7 @@ struct DashboardView: View {
                 VStack(spacing: 16) {
                     totalsCard
                     gapsCard
+                    quickActions
                     distributionChart
                 }
                 .padding()
@@ -30,6 +31,19 @@ struct DashboardView: View {
                     Text(MoneyFormat.format(tier.total, privacy: vm.privacyMode))
                 }
             }
+        }
+        .sectionCard()
+    }
+
+    private var quickActions: some View {
+        HStack {
+            Button {
+                vm.selectedTab = 3 // Planner tab index
+            } label: {
+                Label("Contribute", systemImage: "plus.circle.fill")
+            }
+            .buttonStyle(.borderedProminent)
+            Spacer()
         }
         .sectionCard()
     }

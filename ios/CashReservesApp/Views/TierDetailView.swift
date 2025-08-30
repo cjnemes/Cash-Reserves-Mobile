@@ -21,8 +21,11 @@ struct TierDetailView: View {
                         .textInputAutocapitalization(.sentences)
                 }
                 LabeledContent("Target") {
-                    TextField("e.g., 30000", value: Binding(get: { tier.target }, set: { tier.target = $0 }), formatter: NumberFormatter())
-                        .keyboardType(.decimalPad)
+                    HStack {
+                        Text("$")
+                        TextField("e.g., 30000", value: Binding(get: { tier.target }, set: { tier.target = $0 }), formatter: NumberFormatter())
+                            .keyboardType(.decimalPad)
+                    }
                 }
                 LabeledContent("Priority") {
                     Stepper(value: Binding(get: { tier.priority }, set: { tier.priority = $0 }), in: 1...99) {
@@ -55,6 +58,19 @@ struct TierDetailView: View {
                                 }
                                 Spacer()
                                 Text(MoneyFormat.format(tier.accounts[i].balance, privacy: vm.privacyMode))
+                            }
+                        }
+                        .contextMenu {
+                            if tier.preferredAccount == tier.accounts[i].name {
+                                Button(role: .destructive) {
+                                    tier.preferredAccount = nil
+                                    vm.save()
+                                } label: { Label("Unset Preferred", systemImage: "star.slash.fill") }
+                            } else {
+                                Button {
+                                    tier.preferredAccount = tier.accounts[i].name
+                                    vm.save()
+                                } label: { Label("Set as Preferred", systemImage: "star.fill") }
                             }
                         }
                     }
@@ -120,11 +136,14 @@ struct AccountEditorView: View {
                             .textInputAutocapitalization(.words)
                     }
                     LabeledContent("Balance") {
-                        TextField("e.g., 12000", text: $balance)
-                            .keyboardType(.decimalPad)
-                            .textInputAutocapitalization(.never)
-                            .focused($balanceFocused)
-                            .onChange(of: balanceFocused) { foc in if !foc { balance = InputFormatters.formatCurrencyString(balance) } }
+                        HStack {
+                            Text("$")
+                            TextField("e.g., 12,000", text: $balance)
+                                .keyboardType(.decimalPad)
+                                .textInputAutocapitalization(.never)
+                                .focused($balanceFocused)
+                                .onChange(of: balanceFocused) { foc in if !foc { balance = InputFormatters.formatCurrencyString(balance) } }
+                        }
                     }
                     LabeledContent("APY %") {
                         TextField("e.g., 4.25", text: $apy)
@@ -139,11 +158,14 @@ struct AccountEditorView: View {
                             .textInputAutocapitalization(.never)
                     }
                     LabeledContent("Cap (optional)") {
-                        TextField("leave blank for no cap", text: $cap)
-                            .keyboardType(.decimalPad)
-                            .textInputAutocapitalization(.never)
-                            .focused($capFocused)
-                            .onChange(of: capFocused) { foc in if !foc && !cap.isEmpty { cap = InputFormatters.formatCurrencyString(cap) } }
+                        HStack {
+                            Text("$")
+                            TextField("leave blank for no cap", text: $cap)
+                                .keyboardType(.decimalPad)
+                                .textInputAutocapitalization(.never)
+                                .focused($capFocused)
+                                .onChange(of: capFocused) { foc in if !foc && !cap.isEmpty { cap = InputFormatters.formatCurrencyString(cap) } }
+                        }
                     }
                     LabeledContent("Notes") {
                         TextField("optional", text: $notes)

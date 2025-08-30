@@ -15,7 +15,9 @@
 - ios/CashReservesApp
   - App – `CashReservesApp.swift` (entry) and theme helpers
   - ViewModels – `PlanViewModel`
-  - Views – DashboardView, TierListView, TierDetailView, PlannerView, HistoryView, SettingsView
+  - Views – DashboardView, TierListView, TierDetailView, AccountsView, PlannerView, MoreView, HistoryView, SettingsView
+  - Views/Components – `AccountRowView`
+  - Services – `HistoryStore` (Core Data), `CSVExporter`
 
 ## Data Flow
 - View → ViewModel → Engine

@@ -6,6 +6,8 @@ struct TierDetailView: View {
     @State var tier: Tier
     @State private var editMode: Bool = false
     @State private var newAccount = false
+    @State private var editingAccount = false
+    @State private var editingIndex: Int? = nil
 
     var body: some View {
         Form {
@@ -20,19 +22,28 @@ struct TierDetailView: View {
                 }
             }
             Section("Accounts") {
-                ForEach(tier.accounts.indices, id: \.self) { i in
-                    NavigationLink(destination: AccountEditorView(tier: $tier, accountIndex: i)) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(tier.accounts[i].name)
-                                Text("APY: \(tier.accounts[i].apyPct, specifier: "%.2f")%  •  W: \(tier.accounts[i].allocWeight, specifier: "%.2f")").font(.caption).foregroundStyle(.secondary)
+                if tier.accounts.isEmpty {
+                    Text("No accounts yet. Tap ‘Add Account’ to create one.")
+                        .foregroundStyle(.secondary)
+                } else {
+                    ForEach(tier.accounts.indices, id: \.self) { i in
+                        Button {
+                            editingIndex = i
+                            editingAccount = true
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(tier.accounts[i].name)
+                                    Text("APY: \(tier.accounts[i].apyPct, specifier: "%.2f")%  •  W: \(tier.accounts[i].allocWeight, specifier: "%.2f")")
+                                        .font(.caption).foregroundStyle(.secondary)
+                                }
+                                Spacer()
+                                Text(MoneyFormat.format(tier.accounts[i].balance, privacy: vm.privacyMode))
                             }
-                            Spacer()
-                            Text(MoneyFormat.format(tier.accounts[i].balance, privacy: vm.privacyMode))
                         }
                     }
+                    .onDelete { idx in tier.accounts.remove(atOffsets: idx) }
                 }
-                .onDelete { idx in tier.accounts.remove(atOffsets: idx) }
                 Button { newAccount = true } label: { Label("Add Account", systemImage: "plus") }
             }
         }
@@ -42,8 +53,9 @@ struct TierDetailView: View {
                 Button("Save") { save() }
             }
         }
-        .sheet(isPresented: $newAccount) {
-            AccountEditorView(tier: $tier, accountIndex: nil)
+        .sheet(isPresented: $newAccount) { AccountEditorView(tier: $tier, accountIndex: nil) }
+        .sheet(isPresented: $editingAccount, onDismiss: { editingIndex = nil }) {
+            AccountEditorView(tier: $tier, accountIndex: editingIndex)
         }
     }
 
@@ -74,13 +86,18 @@ struct AccountEditorView: View {
         NavigationStack {
             Form {
                 Section("Account") {
-                    TextField("Name", text: $name)
-                    TextField("Balance", text: $balance).keyboardType(.decimalPad)
-                    TextField("APY %", text: $apy).keyboardType(.decimalPad)
-                    TextField("Weight", text: $weight).keyboardType(.decimalPad)
-                    TextField("Cap (optional)", text: $cap).keyboardType(.decimalPad)
-                    TextField("Notes", text: $notes)
+                    TextField("Account name (e.g., Savings)", text: $name)
+                    TextField("Balance (e.g., 12000)", text: $balance)
+                        .keyboardType(.decimalPad)
+                    TextField("APY % (e.g., 4.25)", text: $apy)
+                        .keyboardType(.decimalPad)
+                    TextField("Allocation weight (e.g., 2)", text: $weight)
+                        .keyboardType(.decimalPad)
+                    TextField("Cap (optional, leave blank)", text: $cap)
+                        .keyboardType(.decimalPad)
+                    TextField("Notes (optional)", text: $notes)
                 }
+                Section(footer: Text("Weight controls how new cash is split among accounts within this tier. Cap limits the max for this account.").font(.footnote).foregroundStyle(.secondary)) { EmptyView() }
             }
             .navigationTitle(accountIndex == nil ? "Add Account" : "Edit Account")
             .toolbar {

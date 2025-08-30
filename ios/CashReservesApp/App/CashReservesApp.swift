@@ -23,18 +23,15 @@ struct RootView: View {
             TierListView()
                 .tabItem { Label("Tiers", systemImage: "square.grid.2x2") }
                 .tag(1)
+            AccountsView()
+                .tabItem { Label("Accounts", systemImage: "creditcard") }
+                .tag(2)
             PlannerView()
                 .tabItem { Label("Planner", systemImage: "plus.slash.minus") }
-                .tag(2)
-            RebalanceView()
-                .tabItem { Label("Rebalance", systemImage: "arrow.left.arrow.right") }
                 .tag(3)
-            HistoryView()
-                .tabItem { Label("History", systemImage: "clock.arrow.circlepath") }
+            MoreView()
+                .tabItem { Label("More", systemImage: "ellipsis.circle") }
                 .tag(4)
-            SettingsView()
-                .tabItem { Label("Settings", systemImage: "gear") }
-                .tag(5)
         }
         .task { await vm.load() }
     }

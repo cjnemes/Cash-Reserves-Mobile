@@ -1,0 +1,27 @@
+{
+  "last_updated": "2025-08-30",
+  "tiers": [
+    {
+      "name": "Tier 1",
+      "purpose": "Buffer",
+      "target": 1000,
+      "priority": 1,
+      "preferred_account": "Savings",
+      "accounts": [
+        {"name": "Savings", "balance": 200, "apy_pct": 0, "notes": "", "alloc_weight": 2, "account_target": null},
+        {"name": "Checking", "balance": 100, "apy_pct": 0, "notes": "", "alloc_weight": 1, "account_target": null}
+      ]
+    },
+    {
+      "name": "Tier 2",
+      "purpose": "Emergency",
+      "target": 500,
+      "priority": 2,
+      "preferred_account": "Investment",
+      "accounts": [
+        {"name": "Investment", "balance": 0, "apy_pct": 0, "notes": "", "alloc_weight": 1, "account_target": null}
+      ]
+    }
+  ]
+}
+

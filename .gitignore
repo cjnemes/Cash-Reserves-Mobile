@@ -1,0 +1,38 @@
+# macOS & General
+.DS_Store
+.Spotlight-V100
+.Trashes
+*.swp
+*.swo
+
+# IDE
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+dist/
+build/
+.coverage
+*.egg-info/
+
+# Xcode / Swift
+DerivedData/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcuserstate
+.swiftpm/
+.build/
+
+# App data (user-specific)
+history.json
+reserve_manager.json
+
+# Logs
+*.log
+

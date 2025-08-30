@@ -8,8 +8,4 @@ Native iOS app (Swift/SwiftUI) for managing tiered cash reserves. It mirrors the
 - Quick start: see `ios/SETUP_XCODE.md`
 
 If you’re new to Xcode, follow `ios/SETUP_XCODE.md` to open and run the app in the simulator or on a device.
-# Cash-Reserves-Mobile
 
-Cash Reserves Mobile
-
-See detailed app README at `docs/APP_README.md`.

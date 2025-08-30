@@ -22,7 +22,7 @@
 - ViewModel persists changes via PlanStore.
 - Planner uses engine to preview and optionally apply allocations.
 
-## Future Persistence
-- Core Data or GRDB (SQLite) for `Transaction` history; import/export CSV.
-- Optional iCloud file picker; App Group for shared plan files.
-
+## Persistence
+- Plan JSON: `Documents/reserve_manager.json` via PlanStore (Codable, schema-compatible with desktop).
+- History Core Data: Programmatic model (`CDTransaction`) stored in Application Support (SQLite via NSPersistentContainer). Automatic migration from prior `history.json` on first launch.
+- Optional iCloud file picker; App Group for shared plan files (future).

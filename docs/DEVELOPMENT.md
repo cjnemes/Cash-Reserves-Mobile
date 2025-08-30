@@ -18,7 +18,10 @@ Branching (optional)
 
 Testing
 - Add a Unit Test target; load JSON fixtures; compare algorithm outputs.
+ - For Core Data, you can instantiate a test-only in-memory PersistenceController.
 
 Releases
 - Bump version in About section; archive via Xcode Organizer.
 
+Data Migration
+- On first launch after this update, the app automatically migrates existing `history.json` to Core Data (`CDTransaction`), then removes the JSON file.

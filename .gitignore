@@ -28,7 +28,8 @@ DerivedData/
 *.xcuserstate
 .swiftpm/
 .build/
-CashReservesApp/
+/# Ignore stray root Xcode project folder only
+/CashReservesApp/
 
 # App data (user-specific)
 history.json

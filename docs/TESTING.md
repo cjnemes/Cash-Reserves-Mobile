@@ -3,11 +3,13 @@
 Goals
 - Ensure Swift engine (Allocator, Rebalancer, Forecaster) matches Python behavior.
 - Verify Plan JSON compatibility.
+- Verify Core Data history CRUD and JSON→Core Data migration.
 
 Plan
 - Create a unit test target in Xcode.
 - Load fixtures in `fixtures/` and decode into `Plan`.
 - Run algorithms and compare results to expected JSON fixtures (rounded to 2 decimals).
+ - For persistence: create an in-memory Core Data container and test create/fetch flows.
 
 Fixtures
 - `fixtures/plan_sample.json`
@@ -27,4 +29,4 @@ let moves = Allocator.allocationPlan(plan, newCash: 1000)
 Notes
 - Use 2-decimal comparisons for money values.
 - Avoid floating-point noise by rounding before comparing.
-
+ - For Core Data tests, use a test-specific in-memory container.

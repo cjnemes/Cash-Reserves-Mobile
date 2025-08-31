@@ -11,7 +11,7 @@ struct MoreView: View {
                     VStack(spacing: AppTheme.Spacing.md) {
                         VStack(spacing: AppTheme.Spacing.sm) {
                             // App Icon
-                            Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
+                            Image("AppIconImage")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 72, height: 72)

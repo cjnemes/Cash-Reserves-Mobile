@@ -8,7 +8,7 @@ struct WelcomeStepView: View {
         VStack(spacing: AppTheme.Spacing.xxl) {
             VStack(spacing: AppTheme.Spacing.lg) {
                 // App Icon
-                Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
+                Image("AppIconImage")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 80, height: 80)
@@ -462,7 +462,7 @@ struct CompletionStepView: View {
                 }
                 
                 // App Icon
-                Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
+                Image("AppIconImage")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 64, height: 64)

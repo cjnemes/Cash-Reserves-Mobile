@@ -1,13 +1,64 @@
 import Foundation
+import CryptoKit
 
 public final class PlanStore {
     public static let shared = PlanStore()
     private init() {}
+    
+    // Encryption key stored securely in keychain
+    private static let encryptionKeyTag = "com.cashreserves.encryption.key"
+    
+    private func getOrCreateEncryptionKey() throws -> SymmetricKey {
+        // Try to load existing key from keychain
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: Self.encryptionKeyTag,
+            kSecReturnData as String: true
+        ]
+        
+        var result: AnyObject?
+        let status = SecItemCopyMatching(query as CFDictionary, &result)
+        
+        if status == errSecSuccess, let keyData = result as? Data {
+            return SymmetricKey(data: keyData)
+        }
+        
+        // Create new key if none exists
+        let newKey = SymmetricKey(size: .bits256)
+        let keyData = newKey.withUnsafeBytes { Data($0) }
+        
+        let addQuery: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: Self.encryptionKeyTag,
+            kSecValueData as String: keyData,
+            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+        ]
+        
+        let addStatus = SecItemAdd(addQuery as CFDictionary, nil)
+        guard addStatus == errSecSuccess else {
+            throw NSError(domain: "Encryption", code: Int(addStatus), userInfo: [NSLocalizedDescriptionKey: "Failed to store encryption key"])
+        }
+        
+        return newKey
+    }
+    
+    private func encryptData(_ data: Data) throws -> Data {
+        let key = try getOrCreateEncryptionKey()
+        let sealedBox = try AES.GCM.seal(data, using: key)
+        return sealedBox.combined!
+    }
+    
+    private func decryptData(_ encryptedData: Data) throws -> Data {
+        let key = try getOrCreateEncryptionKey()
+        let sealedBox = try AES.GCM.SealedBox(combined: encryptedData)
+        return try AES.GCM.open(sealedBox, using: key)
+    }
 
     public func loadOrInitialize() throws -> Plan {
         let url = planURL()
         if FileManager.default.fileExists(atPath: url.path) {
-            let data = try Data(contentsOf: url)
+            let encryptedData = try Data(contentsOf: url)
+            let data = try decryptData(encryptedData)
             let plan = try JSONDecoder().decode(Plan.self, from: data)
             return plan
         } else {
@@ -21,7 +72,17 @@ public final class PlanStore {
         var copy = plan
         copy.lastUpdated = ISO8601DateFormatter().string(from: Date())
         let data = try JSONEncoder.withSnakeCaseDates().encode(copy)
-        try data.write(to: planURL(), options: [.atomic])
+        let encryptedData = try encryptData(data)
+        
+        // Set file protection attribute for additional security
+        var options: Data.WritingOptions = [.atomic]
+        try encryptedData.write(to: planURL(), options: options)
+        
+        // Set file protection level after writing
+        try (planURL() as NSURL).setResourceValue(
+            URLFileProtection.completeUntilFirstUserAuthentication,
+            forKey: .fileProtectionKey
+        )
     }
 
     public func importFrom(url: URL) throws -> Plan {
@@ -32,8 +93,10 @@ public final class PlanStore {
     }
 
     public func export(to url: URL) throws {
-        let data = try Data(contentsOf: planURL())
-        try data.write(to: url)
+        // Export as unencrypted JSON for user readability and portability
+        let encryptedData = try Data(contentsOf: planURL())
+        let decryptedData = try decryptData(encryptedData)
+        try decryptedData.write(to: url)
     }
 
     public func planURL() -> URL {
@@ -55,9 +118,14 @@ extension JSONEncoder {
 }
 
 public func defaultPlan() -> Plan {
+    // Financial Disclaimer: These are example tiers for educational purposes only.
+    // Amounts are suggestions and should be adjusted based on your personal financial situation.
+    // This app does not provide professional financial advice.
+    // Consult with a qualified financial advisor for personalized recommendations.
+    
     let tier1 = Tier(
         name: "Tier 1: Buffer",
-        purpose: "Daily expenses & small emergencies",
+        purpose: "Daily expenses & small emergencies (example amounts)",
         target: 1000,
         priority: 1,
         accounts: [
@@ -69,7 +137,7 @@ public func defaultPlan() -> Plan {
     
     let tier2 = Tier(
         name: "Tier 2: Emergency Fund",
-        purpose: "Major life disruptions",
+        purpose: "Major life disruptions (example amount - typically 3-6 months expenses)",
         target: 15000,
         priority: 2,
         accounts: [

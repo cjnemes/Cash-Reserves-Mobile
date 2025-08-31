@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Main gradient from deep blue to blue-green -->
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Individual tier gradients for depth -->
+    <linearGradient id="tier1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#0891b2;stop-opacity:0.95" />
+    </linearGradient>
+    
+    <linearGradient id="tier2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#0891b2;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <linearGradient id="tier3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.85" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:0.85" />
+    </linearGradient>
+    
+    <linearGradient id="tier4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:0.8" />
+    </linearGradient>
+    
+    <linearGradient id="tier5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#93c5fd;stop-opacity:0.75" />
+      <stop offset="100%" style="stop-color:#67e8f9;stop-opacity:0.75" />
+    </linearGradient>
+    
+    <linearGradient id="tier6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dbeafe;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#a7f3d0;stop-opacity:0.7" />
+    </linearGradient>
+    
+    <!-- Shadow filters -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" flood-opacity="0.15" flood-color="#000000" stdDeviation="3"/>
+    </filter>
+    
+    <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="1" flood-opacity="0.1" flood-color="#000000" stdDeviation="1"/>
+    </filter>
+  </defs>
+  
+  <!-- Background circle with main gradient -->
+  <circle cx="512" cy="512" r="480" fill="url(#mainGradient)" filter="url(#shadow)"/>
+  
+  <!-- Tier 1 (Bottom/Largest - Buffer) -->
+  <rect x="152" y="680" width="720" height="80" rx="16" ry="16" fill="url(#tier1)" filter="url(#innerShadow)" opacity="0.95"/>
+  
+  <!-- Tier 2 (Emergency Fund) -->
+  <rect x="172" y="580" width="680" height="80" rx="16" ry="16" fill="url(#tier2)" filter="url(#innerShadow)" opacity="0.9"/>
+  
+  <!-- Tier 3 (Major Repairs) -->
+  <rect x="192" y="480" width="640" height="80" rx="16" ry="16" fill="url(#tier3)" filter="url(#innerShadow)" opacity="0.85"/>
+  
+  <!-- Tier 4 (Opportunities) -->
+  <rect x="212" y="380" width="600" height="80" rx="16" ry="16" fill="url(#tier4)" filter="url(#innerShadow)" opacity="0.8"/>
+  
+  <!-- Tier 5 (Long-term Goals) -->
+  <rect x="232" y="280" width="560" height="80" rx="16" ry="16" fill="url(#tier5)" filter="url(#innerShadow)" opacity="0.75"/>
+  
+  <!-- Tier 6 (Top/Smallest - Legacy) -->
+  <rect x="252" y="180" width="520" height="80" rx="16" ry="16" fill="url(#tier6)" filter="url(#innerShadow)" opacity="0.7"/>
+  
+  <!-- Central icon/symbol - Dollar sign with modern styling -->
+  <g transform="translate(512, 512)">
+    <!-- Dollar sign background circle -->
+    <circle cx="0" cy="0" r="120" fill="rgba(255,255,255,0.15)" filter="url(#shadow)"/>
+    
+    <!-- Dollar sign -->
+    <path d="M-15 -80 L-15 -100 L15 -100 L15 -80 M-15 80 L-15 100 L15 100 L15 80 M-45 -60 L45 -60 Q60 -60 60 -45 L60 -15 Q60 0 45 0 L-30 0 L-30 30 L45 30 Q60 30 60 45 L60 75 Q60 90 45 90 L-45 90 Q-60 90 -60 75 L-45 75 L45 75 Q45 60 45 60 L-30 60 L-30 30 Q-30 15 -15 15 L45 15 Q45 0 45 0 L-45 0 Q-60 0 -60 -15 L-60 -45 Q-60 -60 -45 -60 Z" 
+          fill="rgba(255,255,255,0.9)" 
+          stroke="rgba(255,255,255,0.3)" 
+          stroke-width="2"/>
+    
+    <!-- Simplified dollar sign for better scalability -->
+    <g stroke="rgba(255,255,255,0.95)" stroke-width="12" fill="none" stroke-linecap="round">
+      <!-- Vertical line -->
+      <line x1="0" y1="-85" x2="0" y2="85"/>
+      <!-- Top curve -->
+      <path d="M-35 -50 Q-50 -65 -35 -80 Q-20 -95 20 -80 Q50 -65 35 -50 Q20 -35 -20 -50"/>
+      <!-- Bottom curve -->
+      <path d="M35 50 Q50 65 35 80 Q20 95 -20 80 Q-50 65 -35 50 Q-20 35 20 50"/>
+    </g>
+  </g>
+  
+  <!-- Subtle highlight on top edge -->
+  <circle cx="512" cy="512" r="480" fill="none" stroke="url(#mainGradient)" stroke-width="4" opacity="0.3"/>
+</svg>

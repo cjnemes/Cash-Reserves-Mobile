@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Main background gradient -->
+    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Tier gradients - each tier gets progressively lighter -->
+    <linearGradient id="tier1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0891b2;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="tier2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0891b2;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="tier3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="tier4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="tier5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#93c5fd;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#67e8f9;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="tier6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dbeafe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a7f3d0;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Shadow and highlight effects -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" flood-opacity="0.2" flood-color="#000000" stdDeviation="6"/>
+    </filter>
+    
+    <filter id="subtleShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" flood-opacity="0.15" flood-color="#000000" stdDeviation="3"/>
+    </filter>
+    
+    <!-- Dollar sign gradient -->
+    <linearGradient id="dollarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0fdf4;stop-opacity:0.95" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background - fills entire square with rounded corners for iOS -->
+  <rect x="0" y="0" width="1024" height="1024" rx="180" ry="180" fill="url(#backgroundGradient)"/>
+  
+  <!-- Building blocks architecture - 6 tiers as stacked rectangles -->
+  <!-- Each tier is positioned to create a pyramid/building effect -->
+  
+  <!-- Tier 1 (Bottom/Foundation - Buffer) - Largest, darkest -->
+  <rect x="64" y="720" width="896" height="120" rx="24" ry="24" fill="url(#tier1)" filter="url(#subtleShadow)"/>
+  
+  <!-- Tier 2 (Emergency Fund) -->
+  <rect x="96" y="580" width="832" height="120" rx="20" ry="20" fill="url(#tier2)" filter="url(#subtleShadow)"/>
+  
+  <!-- Tier 3 (Major Repairs) -->
+  <rect x="128" y="440" width="768" height="120" rx="18" ry="18" fill="url(#tier3)" filter="url(#subtleShadow)"/>
+  
+  <!-- Tier 4 (Opportunities) -->
+  <rect x="160" y="300" width="704" height="120" rx="16" ry="16" fill="url(#tier4)" filter="url(#subtleShadow)"/>
+  
+  <!-- Tier 5 (Long-term Goals) -->
+  <rect x="192" y="160" width="640" height="120" rx="14" ry="14" fill="url(#tier5)" filter="url(#subtleShadow)"/>
+  
+  <!-- Tier 6 (Top - Legacy) - Smallest, lightest -->
+  <rect x="224" y="84" width="576" height="120" rx="12" ry="12" fill="url(#tier6)" filter="url(#subtleShadow)"/>
+  
+  <!-- Large dollar symbol centered and sized for visibility -->
+  <g transform="translate(512, 400)">
+    <!-- Dollar sign background circle for contrast -->
+    <circle cx="0" cy="0" r="140" fill="rgba(0,0,0,0.2)" filter="url(#shadow)"/>
+    <circle cx="0" cy="0" r="130" fill="rgba(255,255,255,0.1)"/>
+    
+    <!-- Simplified, bold dollar sign optimized for small icon sizes -->
+    <g fill="url(#dollarGradient)" stroke="none">
+      <!-- Vertical line of dollar sign -->
+      <rect x="-16" y="-100" width="32" height="200" rx="16" ry="16"/>
+      
+      <!-- Top horizontal bar -->
+      <rect x="-70" y="-70" width="140" height="32" rx="16" ry="16"/>
+      
+      <!-- Middle horizontal bar (shorter) -->
+      <rect x="-50" y="-16" width="100" height="32" rx="16" ry="16"/>
+      
+      <!-- Bottom horizontal bar -->
+      <rect x="-70" y="38" width="140" height="32" rx="16" ry="16"/>
+    </g>
+    
+    <!-- Add subtle depth with inner shadow effect -->
+    <g fill="rgba(255,255,255,0.3)" stroke="none">
+      <!-- Highlight on vertical line -->
+      <rect x="-16" y="-100" width="32" height="8" rx="16" ry="4"/>
+      
+      <!-- Highlights on horizontal bars -->
+      <rect x="-70" y="-70" width="140" height="6" rx="16" ry="3"/>
+      <rect x="-50" y="-16" width="100" height="6" rx="16" ry="3"/>
+      <rect x="-70" y="38" width="140" height="6" rx="16" ry="3"/>
+    </g>
+  </g>
+  
+  <!-- Subtle highlight overlay for depth -->
+  <rect x="0" y="0" width="1024" height="512" rx="180" ry="180" fill="url(#backgroundGradient)" opacity="0.1"/>
+  
+  <!-- iOS corner radius border highlight -->
+  <rect x="0" y="0" width="1024" height="1024" rx="180" ry="180" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+</svg>

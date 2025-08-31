@@ -495,6 +495,22 @@ struct CompletionStepView: View {
             }
             .primaryCard()
             
+            // Financial disclaimer
+            VStack(spacing: AppTheme.Spacing.sm) {
+                Text("Important Disclaimer")
+                    .font(AppTheme.Typography.subheadline)
+                    .foregroundColor(AppTheme.Colors.primaryText)
+                
+                Text("This app provides educational tools for organizing your finances. It does not offer professional financial advice. Consult with qualified financial advisors for personalized recommendations.")
+                    .font(AppTheme.Typography.caption2)
+                    .foregroundColor(AppTheme.Colors.secondaryText)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, AppTheme.Spacing.sm)
+            }
+            .padding(AppTheme.Spacing.md)
+            .background(AppTheme.Colors.warning.opacity(0.1))
+            .clipShape(RoundedRectangle(cornerRadius: AppTheme.CornerRadius.md, style: .continuous))
+            
             // Additional resources
             VStack(spacing: AppTheme.Spacing.md) {
                 Text("Need Help?")

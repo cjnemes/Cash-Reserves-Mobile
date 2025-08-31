@@ -6,17 +6,13 @@ import ReserveEngine
 struct WelcomeStepView: View {
     var body: some View {
         VStack(spacing: AppTheme.Spacing.xxl) {
-            VStack(spacing: AppTheme.Spacing.lg) {
-                // App Icon
-                Image("AppIconImage")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 80, height: 80)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                    .shadow(color: AppTheme.Colors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
-                
-                WelcomeAnimationView()
-            }
+            // App Icon
+            Image("AppIconImage")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 80, height: 80)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .shadow(color: AppTheme.Colors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
             
             VStack(spacing: AppTheme.Spacing.lg) {
                 VStack(spacing: AppTheme.Spacing.md) {

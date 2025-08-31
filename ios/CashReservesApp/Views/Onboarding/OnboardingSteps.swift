@@ -6,7 +6,17 @@ import ReserveEngine
 struct WelcomeStepView: View {
     var body: some View {
         VStack(spacing: AppTheme.Spacing.xxl) {
-            WelcomeAnimationView()
+            VStack(spacing: AppTheme.Spacing.lg) {
+                // App Icon
+                Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 80, height: 80)
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .shadow(color: AppTheme.Colors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
+                
+                WelcomeAnimationView()
+            }
             
             VStack(spacing: AppTheme.Spacing.lg) {
                 VStack(spacing: AppTheme.Spacing.md) {
@@ -450,6 +460,16 @@ struct CompletionStepView: View {
                         showingCelebration = true
                     }
                 }
+                
+                // App Icon
+                Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 64, height: 64)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .shadow(color: AppTheme.Colors.primary.opacity(0.2), radius: 6, x: 0, y: 3)
+                    .scaleEffect(showingCelebration ? 1.0 : 0.8)
+                    .opacity(showingCelebration ? 1.0 : 0.0)
                 
                 VStack(spacing: AppTheme.Spacing.md) {
                     Text("You're All Set!")

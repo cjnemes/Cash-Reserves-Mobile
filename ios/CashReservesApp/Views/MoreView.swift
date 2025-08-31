@@ -7,6 +7,32 @@ struct MoreView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(spacing: AppTheme.Spacing.md) {
+                    // App header section
+                    VStack(spacing: AppTheme.Spacing.md) {
+                        VStack(spacing: AppTheme.Spacing.sm) {
+                            // App Icon
+                            Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 72, height: 72)
+                                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                .shadow(color: AppTheme.Colors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
+                            
+                            VStack(spacing: 4) {
+                                Text("Cash Reserves Mobile")
+                                    .font(AppTheme.Typography.title3)
+                                    .foregroundColor(AppTheme.Colors.primaryText)
+                                    .fontWeight(.semibold)
+                                
+                                Text("Tier-based financial organization")
+                                    .font(AppTheme.Typography.caption)
+                                    .foregroundColor(AppTheme.Colors.secondaryText)
+                            }
+                        }
+                        .padding(.vertical, AppTheme.Spacing.md)
+                    }
+                    .primaryCard()
+                    
                     // Tools section
                     VStack(alignment: .leading, spacing: AppTheme.Spacing.md) {
                         Text("Tools")

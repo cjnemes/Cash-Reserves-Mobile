@@ -13,6 +13,11 @@
 		833D8E142E63ABBB00D72200 /* AccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E0F2E63ABBB00D72200 /* AccountsView.swift */; };
 		833D8E152E63ABBB00D72200 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E122E63ABBB00D72200 /* MoreView.swift */; };
 		833D8E172E63B19700D72200 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 833D8E162E63B19700D72200 /* Assets.xcassets */; };
+		833D8E1E2E648B4A00D72200 /* OnboardingComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E192E648B4A00D72200 /* OnboardingComponents.swift */; };
+		833D8E1F2E648B4A00D72200 /* OnboardingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E1A2E648B4A00D72200 /* OnboardingModels.swift */; };
+		833D8E202E648B4A00D72200 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E1C2E648B4A00D72200 /* OnboardingView.swift */; };
+		833D8E212E648B4A00D72200 /* OnboardingAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E182E648B4A00D72200 /* OnboardingAccessibility.swift */; };
+		833D8E222E648B4A00D72200 /* OnboardingSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E1B2E648B4A00D72200 /* OnboardingSteps.swift */; };
 		835669092E635069005DDD93 /* CashReservesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835668F92E635069005DDD93 /* CashReservesApp.swift */; };
 		8356690A2E635069005DDD93 /* TierDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835669052E635069005DDD93 /* TierDetailView.swift */; };
 		8356690B2E635069005DDD93 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835669042E635069005DDD93 /* SettingsView.swift */; };
@@ -51,6 +56,11 @@
 		833D8E102E63ABBB00D72200 /* AccountRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRowView.swift; sourceTree = "<group>"; };
 		833D8E122E63ABBB00D72200 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MoreView.swift; path = Views/MoreView.swift; sourceTree = "<group>"; };
 		833D8E162E63B19700D72200 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		833D8E182E648B4A00D72200 /* OnboardingAccessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAccessibility.swift; sourceTree = "<group>"; };
+		833D8E192E648B4A00D72200 /* OnboardingComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingComponents.swift; sourceTree = "<group>"; };
+		833D8E1A2E648B4A00D72200 /* OnboardingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModels.swift; sourceTree = "<group>"; };
+		833D8E1B2E648B4A00D72200 /* OnboardingSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSteps.swift; sourceTree = "<group>"; };
+		833D8E1C2E648B4A00D72200 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		835668F92E635069005DDD93 /* CashReservesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashReservesApp.swift; sourceTree = "<group>"; };
 		835668FA2E635069005DDD93 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		835668FC2E635069005DDD93 /* HistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryStore.swift; sourceTree = "<group>"; };
@@ -115,6 +125,19 @@
 			path = Views/Components;
 			sourceTree = "<group>";
 		};
+		833D8E1D2E648B4A00D72200 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				833D8E182E648B4A00D72200 /* OnboardingAccessibility.swift */,
+				833D8E192E648B4A00D72200 /* OnboardingComponents.swift */,
+				833D8E1A2E648B4A00D72200 /* OnboardingModels.swift */,
+				833D8E1B2E648B4A00D72200 /* OnboardingSteps.swift */,
+				833D8E1C2E648B4A00D72200 /* OnboardingView.swift */,
+			);
+			name = Onboarding;
+			path = Views/Onboarding;
+			sourceTree = "<group>";
+		};
 		835668FB2E635069005DDD93 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +180,7 @@
 		835669082E635069005DDD93 /* CashReservesApp */ = {
 			isa = PBXGroup;
 			children = (
+				833D8E1D2E648B4A00D72200 /* Onboarding */,
 				833D8E162E63B19700D72200 /* Assets.xcassets */,
 				833D8E0F2E63ABBB00D72200 /* AccountsView.swift */,
 				833D8E112E63ABBB00D72200 /* Components */,
@@ -347,6 +371,11 @@
 				833D8E152E63ABBB00D72200 /* MoreView.swift in Sources */,
 				8356690D2E635069005DDD93 /* PlanViewModel.swift in Sources */,
 				8356690E2E635069005DDD93 /* HistoryView.swift in Sources */,
+				833D8E1E2E648B4A00D72200 /* OnboardingComponents.swift in Sources */,
+				833D8E1F2E648B4A00D72200 /* OnboardingModels.swift in Sources */,
+				833D8E202E648B4A00D72200 /* OnboardingView.swift in Sources */,
+				833D8E212E648B4A00D72200 /* OnboardingAccessibility.swift in Sources */,
+				833D8E222E648B4A00D72200 /* OnboardingSteps.swift in Sources */,
 				8356690F2E635069005DDD93 /* HistoryStore.swift in Sources */,
 				835669102E635069005DDD93 /* PlannerView.swift in Sources */,
 				835669112E635069005DDD93 /* DashboardView.swift in Sources */,

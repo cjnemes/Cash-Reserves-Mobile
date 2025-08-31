@@ -12,6 +12,7 @@
 		833D8E132E63ABBB00D72200 /* AccountRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E102E63ABBB00D72200 /* AccountRowView.swift */; };
 		833D8E142E63ABBB00D72200 /* AccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E0F2E63ABBB00D72200 /* AccountsView.swift */; };
 		833D8E152E63ABBB00D72200 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D8E122E63ABBB00D72200 /* MoreView.swift */; };
+		833D8E172E63B19700D72200 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 833D8E162E63B19700D72200 /* Assets.xcassets */; };
 		835669092E635069005DDD93 /* CashReservesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835668F92E635069005DDD93 /* CashReservesApp.swift */; };
 		8356690A2E635069005DDD93 /* TierDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835669052E635069005DDD93 /* TierDetailView.swift */; };
 		8356690B2E635069005DDD93 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835669042E635069005DDD93 /* SettingsView.swift */; };
@@ -49,6 +50,7 @@
 		833D8E0F2E63ABBB00D72200 /* AccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AccountsView.swift; path = Views/AccountsView.swift; sourceTree = "<group>"; };
 		833D8E102E63ABBB00D72200 /* AccountRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRowView.swift; sourceTree = "<group>"; };
 		833D8E122E63ABBB00D72200 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MoreView.swift; path = Views/MoreView.swift; sourceTree = "<group>"; };
+		833D8E162E63B19700D72200 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		835668F92E635069005DDD93 /* CashReservesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashReservesApp.swift; sourceTree = "<group>"; };
 		835668FA2E635069005DDD93 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		835668FC2E635069005DDD93 /* HistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryStore.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 		835669082E635069005DDD93 /* CashReservesApp */ = {
 			isa = PBXGroup;
 			children = (
+				833D8E162E63B19700D72200 /* Assets.xcassets */,
 				833D8E0F2E63ABBB00D72200 /* AccountsView.swift */,
 				833D8E112E63ABBB00D72200 /* Components */,
 				833D8E122E63ABBB00D72200 /* MoreView.swift */,
@@ -310,6 +313,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				833D8E172E63B19700D72200 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

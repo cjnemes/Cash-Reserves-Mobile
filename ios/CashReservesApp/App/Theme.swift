@@ -31,6 +31,28 @@ struct AppTheme {
         // Border colors
         static let border = Color(UIColor.separator)
         static let divider = Color(UIColor.opaqueSeparator)
+        
+        // Tier-specific colors (matching onboarding)
+        struct TierColors {
+            static let tier1 = Color.blue      // Buffer
+            static let tier2 = Color.green     // Emergency Fund
+            static let tier3 = Color.orange    // Major Repairs
+            static let tier4 = Color.purple    // Opportunities
+            static let tier5 = Color.indigo    // Long-term Goals
+            static let tier6 = Color.pink      // Legacy
+            
+            static func colorForPriority(_ priority: Int) -> Color {
+                switch priority {
+                case 1: return tier1
+                case 2: return tier2
+                case 3: return tier3
+                case 4: return tier4
+                case 5: return tier5
+                case 6: return tier6
+                default: return AppTheme.Colors.primary
+                }
+            }
+        }
     }
     
     // MARK: - Typography
@@ -126,6 +148,22 @@ enum MoneyFormat {
 // MARK: - View Extensions
 
 extension View {
+    // MARK: - Backgrounds
+    func appBackground() -> some View {
+        self
+            .background(
+                LinearGradient(
+                    colors: [
+                        AppTheme.Colors.background,
+                        AppTheme.Colors.primaryLight.opacity(0.3)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+            )
+    }
+    
     // MARK: - Cards
     func primaryCard() -> some View {
         self

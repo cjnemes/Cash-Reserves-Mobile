@@ -20,6 +20,7 @@ struct DashboardView: View {
                 }
                 .padding(AppTheme.Spacing.md)
             }
+            .appBackground()
             .refreshable {
                 await refreshData()
             }
@@ -215,7 +216,10 @@ struct DashboardView: View {
                 )
                 .foregroundStyle(
                     LinearGradient(
-                        colors: [AppTheme.Colors.primary, AppTheme.Colors.primary.opacity(0.7)],
+                        colors: [
+                            AppTheme.Colors.TierColors.colorForPriority(tier.priority),
+                            AppTheme.Colors.TierColors.colorForPriority(tier.priority).opacity(0.7)
+                        ],
                         startPoint: .leading,
                         endPoint: .trailing
                     )
@@ -290,15 +294,22 @@ struct TierProgressRow: View {
     }
     
     private var progressColor: Color {
-        if progress >= 1.0 { return AppTheme.Colors.success }
-        if progress >= 0.75 { return AppTheme.Colors.info }
-        if progress >= 0.5 { return AppTheme.Colors.warning }
-        return AppTheme.Colors.error
+        // Use tier-specific color with progress-based opacity
+        let tierColor = AppTheme.Colors.TierColors.colorForPriority(tier.priority)
+        if progress >= 1.0 { return tierColor }
+        if progress >= 0.75 { return tierColor.opacity(0.9) }
+        if progress >= 0.5 { return tierColor.opacity(0.7) }
+        return tierColor.opacity(0.5)
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: AppTheme.Spacing.xs) {
             HStack(alignment: .firstTextBaseline) {
+                // Tier color indicator
+                Circle()
+                    .fill(AppTheme.Colors.TierColors.colorForPriority(tier.priority))
+                    .frame(width: 12, height: 12)
+                
                 Text(tier.name)
                     .font(AppTheme.Typography.subheadline)
                     .foregroundColor(AppTheme.Colors.primaryText)

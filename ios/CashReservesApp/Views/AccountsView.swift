@@ -81,6 +81,7 @@ struct AccountsView: View {
                     accountsList
                 }
             }
+            .appBackground()
             .navigationTitle("Accounts")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
@@ -338,6 +339,11 @@ struct AccountTierSection: View {
         VStack(alignment: .leading, spacing: AppTheme.Spacing.md) {
             // Section header
             HStack {
+                // Tier color indicator
+                Circle()
+                    .fill(AppTheme.Colors.TierColors.colorForPriority(tier.priority))
+                    .frame(width: 16, height: 16)
+                
                 Text(tier.name)
                     .font(AppTheme.Typography.title3)
                     .foregroundColor(AppTheme.Colors.primaryText)

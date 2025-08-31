@@ -39,29 +39,43 @@ public struct Allocator {
         var remaining = max(0, amount)
         var moves: [(String, Double)] = []
         guard !tier.accounts.isEmpty, remaining > 0 else { return moves }
-        // Preferred first
+        
+        // Preferred account first (if it exists and has room)
         if let pref = tier.preferredAccount, let prefAcc = tier.accounts.first(where: { $0.name == pref }) {
-            let add = min(remaining, prefAcc.remainingRoom)
-            if add > 0 { moves.append((prefAcc.name, add)); remaining -= add }
-        }
-        // Weighted split among accounts with room
-        while remaining > 0 {
-            let candidates = tier.accounts.filter { $0.remainingRoom > 0 }
-            guard !candidates.isEmpty else { break }
-            let totalW = candidates.map { max(0, $0.allocWeight) }.reduce(0, +)
-            if totalW <= 0 {
-                let a = candidates[0]
-                let add = min(remaining, a.remainingRoom)
-                moves.append((a.name, add)); remaining -= add; break
+            let roomAvailable = prefAcc.remainingRoom
+            // Handle infinite room (no cap) by allocating all remaining or a reasonable chunk
+            let add = roomAvailable == .infinity ? remaining : min(remaining, roomAvailable)
+            if add > 0 { 
+                moves.append((prefAcc.name, add))
+                remaining -= add 
             }
-            var progressed = false
-            for a in candidates {
-                let share = remaining * (max(0, a.allocWeight) / totalW)
-                let add = min(share, a.remainingRoom)
-                if add > 0 { moves.append((a.name, add)); remaining -= add; progressed = true }
-            }
-            if !progressed { break }
         }
+        
+        // If there's still money left, distribute among all accounts by weight
+        if remaining > 0.01 { // Use small threshold to avoid floating point precision issues
+            let candidates = tier.accounts.filter { account in
+                // Include accounts that either have room or have infinite room
+                account.remainingRoom > 0
+            }
+            
+            guard !candidates.isEmpty else { return moves }
+            
+            let totalWeight = candidates.map { max(0.1, $0.allocWeight) }.reduce(0, +) // Minimum weight of 0.1
+            
+            // Single pass allocation - no loop needed
+            for account in candidates {
+                let weightRatio = max(0.1, account.allocWeight) / totalWeight
+                let share = remaining * weightRatio
+                
+                let roomAvailable = account.remainingRoom
+                let add = roomAvailable == .infinity ? share : min(share, roomAvailable)
+                
+                if add > 0.01 { // Only allocate meaningful amounts
+                    moves.append((account.name, add.rounded(to: 2)))
+                }
+            }
+        }
+        
         return moves
     }
 }

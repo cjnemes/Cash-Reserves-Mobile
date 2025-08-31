@@ -16,6 +16,7 @@ struct TierListView: View {
                     tiersList
                 }
             }
+            .appBackground()
             .navigationTitle("Tiers")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
@@ -104,19 +105,16 @@ struct TierCardView: View {
     }
     
     private var progressColor: Color {
-        if progress >= 1.0 { return AppTheme.Colors.success }
-        if progress >= 0.75 { return AppTheme.Colors.info }
-        if progress >= 0.5 { return AppTheme.Colors.warning }
-        return AppTheme.Colors.error
+        // Use tier-specific color with progress-based opacity
+        let tierColor = AppTheme.Colors.TierColors.colorForPriority(tier.priority)
+        if progress >= 1.0 { return tierColor }
+        if progress >= 0.75 { return tierColor.opacity(0.9) }
+        if progress >= 0.5 { return tierColor.opacity(0.7) }
+        return tierColor.opacity(0.5)
     }
     
     private var priorityBadgeColor: Color {
-        switch tier.priority {
-        case 1...2: return AppTheme.Colors.error
-        case 3...4: return AppTheme.Colors.warning
-        case 5...6: return AppTheme.Colors.info
-        default: return AppTheme.Colors.primary
-        }
+        return AppTheme.Colors.TierColors.colorForPriority(tier.priority)
     }
     
     var body: some View {
@@ -126,6 +124,11 @@ struct TierCardView: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: AppTheme.Spacing.xs) {
                     HStack(spacing: AppTheme.Spacing.sm) {
+                        // Tier color indicator
+                        Circle()
+                            .fill(AppTheme.Colors.TierColors.colorForPriority(tier.priority))
+                            .frame(width: 16, height: 16)
+                        
                         Text(tier.name)
                             .font(AppTheme.Typography.title3)
                             .foregroundColor(AppTheme.Colors.primaryText)

@@ -31,6 +31,7 @@ struct PlannerView: View {
                 }
                 .padding(AppTheme.Spacing.md)
             }
+            .appBackground()
             .navigationTitle("Cash Planner")
             .navigationBarTitleDisplayMode(.large)
             .onAppear {

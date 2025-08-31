@@ -30,6 +30,18 @@ actor HistoryStore {
         do { try context.save() } catch { }
         await fetchAll()
     }
+    
+    func clear() async {
+        let req = NSFetchRequest<NSFetchRequestResult>(entityName: "CDTransaction")
+        let deleteReq = NSBatchDeleteRequest(fetchRequest: req)
+        do {
+            try context.execute(deleteReq)
+            try context.save()
+            cache = []
+        } catch {
+            // Handle error if needed
+        }
+    }
 
     private func fetchAll() async {
         let req = NSFetchRequest<CDTransaction>(entityName: "CDTransaction")

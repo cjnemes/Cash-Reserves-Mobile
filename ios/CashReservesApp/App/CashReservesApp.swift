@@ -1,5 +1,6 @@
 import SwiftUI
 import ReserveEngine
+import UIKit
 
 @main
 struct CashReservesApp: App {
@@ -51,6 +52,7 @@ struct RootView: View {
         .task { await vm.load() }
         .onAppear {
             checkOnboardingStatus()
+            configureTabBarAppearance()
         }
         .onChange(of: OnboardingPreferences.hasCompletedOnboarding) { completed in
             if completed {
@@ -63,5 +65,15 @@ struct RootView: View {
     
     private func checkOnboardingStatus() {
         showingOnboarding = !OnboardingPreferences.hasCompletedOnboarding
+    }
+    
+    private func configureTabBarAppearance() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.systemBackground
+        
+        // Apply to both standard and scrollEdge appearances
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
     }
 }

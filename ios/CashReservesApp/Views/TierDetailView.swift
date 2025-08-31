@@ -35,7 +35,7 @@ struct TierDetailView: View {
                     }
                 }
                 LabeledContent("Preferred Account") {
-                    Picker("Preferred Account", selection: Binding(get: { tier.preferredAccount ?? "(None)" }, set: { tier.preferredAccount = $0 == "(None)" ? nil : $0 })) {
+                    Picker("", selection: Binding(get: { tier.preferredAccount ?? "(None)" }, set: { tier.preferredAccount = $0 == "(None)" ? nil : $0 })) {
                         Text("(None)").tag("(None)")
                         ForEach(tier.accounts, id: \.name) { a in Text(a.name).tag(a.name) }
                     }
@@ -137,44 +137,95 @@ struct AccountEditorView: View {
                         }
                         .pickerStyle(.menu)
                     }
-                    LabeledContent("Name") {
+                    HStack {
+                        Text("Name")
+                            .foregroundColor(.primary)
+                        Spacer()
                         TextField("Savings", text: $name)
                             .textInputAutocapitalization(.words)
+                            .multilineTextAlignment(.trailing)
                     }
-                    LabeledContent("Balance") {
-                        HStack {
-                            Text("$")
-                            TextField("e.g., 12,000", text: $balance)
-                                .keyboardType(.decimalPad)
-                                .textInputAutocapitalization(.never)
-                                .focused($balanceFocused)
-                                .onChange(of: balanceFocused) { foc in if !foc { balance = InputFormatters.formatCurrencyString(balance) } }
-                        }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        // Focus is automatic for TextField when tapped
                     }
-                    LabeledContent("APY %") {
+                    
+                    HStack {
+                        Text("Balance")
+                            .foregroundColor(.primary)
+                        Spacer()
+                        Text("$")
+                            .foregroundColor(.secondary)
+                        TextField("e.g., 12,000", text: $balance)
+                            .keyboardType(.decimalPad)
+                            .textInputAutocapitalization(.never)
+                            .focused($balanceFocused)
+                            .multilineTextAlignment(.trailing)
+                            .onChange(of: balanceFocused) { foc in if !foc { balance = InputFormatters.formatCurrencyString(balance) } }
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        balanceFocused = true
+                    }
+                    
+                    HStack {
+                        Text("APY %")
+                            .foregroundColor(.primary)
+                        Spacer()
                         TextField("e.g., 4.25", text: $apy)
                             .keyboardType(.decimalPad)
                             .textInputAutocapitalization(.never)
                             .focused($apyFocused)
+                            .multilineTextAlignment(.trailing)
                             .onChange(of: apyFocused) { foc in if !foc { apy = InputFormatters.formatPercentString(apy) } }
                     }
-                    LabeledContent("Weight") {
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        apyFocused = true
+                    }
+                    
+                    HStack {
+                        Text("Weight")
+                            .foregroundColor(.primary)
+                        Spacer()
                         TextField("e.g., 2", text: $weight)
                             .keyboardType(.decimalPad)
                             .textInputAutocapitalization(.never)
+                            .multilineTextAlignment(.trailing)
                     }
-                    LabeledContent("Cap (optional)") {
-                        HStack {
-                            Text("$")
-                            TextField("leave blank for no cap", text: $cap)
-                                .keyboardType(.decimalPad)
-                                .textInputAutocapitalization(.never)
-                                .focused($capFocused)
-                                .onChange(of: capFocused) { foc in if !foc && !cap.isEmpty { cap = InputFormatters.formatCurrencyString(cap) } }
-                        }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        // Focus is automatic for TextField when tapped
                     }
-                    LabeledContent("Notes") {
+                    
+                    HStack {
+                        Text("Cap (optional)")
+                            .foregroundColor(.primary)
+                        Spacer()
+                        Text("$")
+                            .foregroundColor(.secondary)
+                        TextField("leave blank for no cap", text: $cap)
+                            .keyboardType(.decimalPad)
+                            .textInputAutocapitalization(.never)
+                            .focused($capFocused)
+                            .multilineTextAlignment(.trailing)
+                            .onChange(of: capFocused) { foc in if !foc && !cap.isEmpty { cap = InputFormatters.formatCurrencyString(cap) } }
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        capFocused = true
+                    }
+                    
+                    HStack {
+                        Text("Notes")
+                            .foregroundColor(.primary)
+                        Spacer()
                         TextField("optional", text: $notes)
+                            .multilineTextAlignment(.trailing)
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        // Focus is automatic for TextField when tapped
                     }
                 }
                 Section {
@@ -195,16 +246,23 @@ struct AccountEditorView: View {
 
     func load() {
         if let i = accountIndex {
+            // Editing existing account
             let a = tier.accounts[i]
             name = a.name
-            balance = String(a.balance)
-            apy = String(a.apyPct)
-            weight = String(a.allocWeight)
+            // Only show values if they're non-zero, otherwise keep empty for better UX
+            balance = a.balance > 0 ? String(a.balance) : ""
+            apy = a.apyPct > 0 ? String(a.apyPct) : ""
+            weight = String(a.allocWeight) // Weight should always show since default is 1
             cap = a.accountTarget.map { String($0) } ?? ""
             notes = a.notes
         } else {
-            // Defaults for new account: leave fields empty so placeholders and labels are clear
-            if weight.isEmpty { weight = "1" }
+            // New account: start with completely blank fields
+            name = ""
+            balance = ""
+            apy = ""
+            weight = "1" // Only weight gets a default value
+            cap = ""
+            notes = ""
         }
         if selectedTierName.isEmpty { selectedTierName = tier.name }
         // Preferred toggle defaults
@@ -219,11 +277,11 @@ struct AccountEditorView: View {
     func save() {
         let acc = Account(
             name: name,
-            balance: Double(balance.replacingOccurrences(of: ",", with: "")) ?? 0,
-            apyPct: Double(apy.replacingOccurrences(of: "%", with: "")) ?? 0,
+            balance: Double(InputFormatters.cleanNumberString(balance)) ?? 0,
+            apyPct: Double(InputFormatters.cleanPercentString(apy)) ?? 0,
             notes: notes,
             allocWeight: Double(weight) ?? 1,
-            accountTarget: Double(cap.replacingOccurrences(of: ",", with: ""))
+            accountTarget: Double(InputFormatters.cleanNumberString(cap))
         )
         if let i = accountIndex {
             if selectedTierName == tier.name {

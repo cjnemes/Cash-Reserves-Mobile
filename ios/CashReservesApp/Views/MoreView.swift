@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct MoreView: View {
+    @EnvironmentObject var planVM: PlanViewModel
+    @State private var showingTutorial = false
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -26,6 +28,43 @@ struct MoreView: View {
                                 systemImage: "clock.arrow.circlepath",
                                 destination: HistoryView()
                             )
+                            
+                            // Tutorial button
+                            Button {
+                                showingTutorial = true
+                            } label: {
+                                HStack(spacing: AppTheme.Spacing.md) {
+                                    // Icon
+                                    Image(systemName: "graduationcap")
+                                        .font(.title2)
+                                        .foregroundColor(AppTheme.Colors.primary)
+                                        .frame(width: 32, height: 32)
+                                    
+                                    // Content
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text("Tutorial")
+                                            .font(AppTheme.Typography.body)
+                                            .foregroundColor(AppTheme.Colors.primaryText)
+                                            .fontWeight(.medium)
+                                        
+                                        Text("Learn how to use the app")
+                                            .font(AppTheme.Typography.caption)
+                                            .foregroundColor(AppTheme.Colors.secondaryText)
+                                            .lineLimit(2)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    // Arrow
+                                    Image(systemName: "chevron.right")
+                                        .font(.caption)
+                                        .foregroundColor(AppTheme.Colors.secondaryText)
+                                }
+                                .padding(.vertical, AppTheme.Spacing.sm)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .accessibilityLabel("Tutorial: Learn how to use the app")
+                            .accessibilityHint("Tap to start tutorial")
                         }
                         .primaryCard()
                     }
@@ -62,8 +101,13 @@ struct MoreView: View {
                 }
                 .padding(AppTheme.Spacing.md)
             }
+            .appBackground()
             .navigationTitle("More")
             .navigationBarTitleDisplayMode(.large)
+            .sheet(isPresented: $showingTutorial) {
+                OnboardingView(isTutorial: true)
+                    .environmentObject(planVM)
+            }
         }
     }
 }

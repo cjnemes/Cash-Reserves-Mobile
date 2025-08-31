@@ -17,10 +17,6 @@ extension OnboardingView {
             return "Interactive demonstration of tiers. Tap tiers to highlight them."
         case .allocationDemo:
             return "See how money is allocated. Enter an amount and run the demo."
-        case .firstTierSetup:
-            return "Set up your first tier. Fill in the required fields or choose a suggestion."
-        case .firstAccountSetup:
-            return "Add your first account. Fill in account details or choose a suggestion."
         case .completion:
             return "Onboarding complete. Get started button will take you to the main app."
         }

@@ -10,29 +10,16 @@ struct SettingsView: View {
     @State private var importDoc: ImportDoc? = nil
     @State private var accountsCSVDoc: DataDocument? = nil
     @State private var txCSVDoc: DataDocument? = nil
+    @State private var showResetDataAlert = false
+    @State private var showResetOnboardingAlert = false
 
     var body: some View {
         NavigationStack {
             Form {
-                Section("Privacy") {
-                    Toggle("Privacy Mode", isOn: $vm.privacyMode)
-                }
-                Section("Data") {
-                    Button("Export Plan JSON") { showExporter = true }
-                    Button("Import Plan JSON") { showImporter = true }
-                    Button("Export Accounts CSV") {
-                        let data = CSVExporter.accountsCSV(plan: vm.plan)
-                        accountsCSVDoc = DataDocument(data: data)
-                    }
-                    Button("Export Transactions CSV") {
-                        let data = CSVExporter.transactionsCSV(vm.transactions)
-                        txCSVDoc = DataDocument(data: data)
-                    }
-                    Text("Plan Path: \(PlanStore.shared.planURL().lastPathComponent)").font(.caption).foregroundStyle(.secondary)
-                }
-                Section("About") {
-                    Text("Cash Reserves Mobile v0.1")
-                }
+                privacySection
+                dataSection
+                dataManagementSection
+                aboutSection
             }
             .navigationTitle("Settings")
             .fileExporter(isPresented: $showExporter, document: ExportDoc(url: PlanStore.shared.planURL()), contentType: .json, defaultFilename: "reserve_manager.json") { result in
@@ -46,7 +33,101 @@ struct SettingsView: View {
             }
             .fileExporter(isPresented: Binding(get: { accountsCSVDoc != nil }, set: { if !$0 { accountsCSVDoc = nil } }), document: accountsCSVDoc, contentType: .commaSeparatedText, defaultFilename: "accounts.csv") { _ in }
             .fileExporter(isPresented: Binding(get: { txCSVDoc != nil }, set: { if !$0 { txCSVDoc = nil } }), document: txCSVDoc, contentType: .commaSeparatedText, defaultFilename: "transactions.csv") { _ in }
+            .alert("Reset All Data?", isPresented: $showResetDataAlert) {
+                Button("Reset", role: .destructive) {
+                    resetAllData()
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("This will permanently delete all your tiers, accounts, and transaction history. This action cannot be undone.")
+            }
+            .alert("Reset Onboarding?", isPresented: $showResetOnboardingAlert) {
+                Button("Reset", role: .destructive) {
+                    resetOnboarding()
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("This will reset your onboarding status, so the tutorial will show again when you restart the app.")
+            }
         }
+    }
+    
+    private var privacySection: some View {
+        Section("Privacy") {
+            Toggle("Privacy Mode", isOn: $vm.privacyMode)
+        }
+    }
+    
+    private var dataSection: some View {
+        Section("Data") {
+            Button("Export Plan JSON") { showExporter = true }
+            Button("Import Plan JSON") { showImporter = true }
+            Button("Export Accounts CSV") {
+                let data = CSVExporter.accountsCSV(plan: vm.plan)
+                accountsCSVDoc = DataDocument(data: data)
+            }
+            Button("Export Transactions CSV") {
+                let data = CSVExporter.transactionsCSV(vm.transactions)
+                txCSVDoc = DataDocument(data: data)
+            }
+            Text("Plan Path: \(PlanStore.shared.planURL().lastPathComponent)").font(.caption).foregroundStyle(.secondary)
+        }
+    }
+    
+    private var dataManagementSection: some View {
+        Section {
+            Button("Reset All Data") {
+                showResetDataAlert = true
+            }
+            .foregroundColor(.red)
+            
+            Button("Reset Onboarding") {
+                showResetOnboardingAlert = true
+            }
+            .foregroundColor(.orange)
+        } header: {
+            Text("Data Management")
+        } footer: {
+            Text("Reset All Data will delete all tiers, accounts, and transaction history. Reset Onboarding will allow you to see the tutorial again on app launch.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+    
+    private var aboutSection: some View {
+        Section("About") {
+            Text("Cash Reserves Mobile v0.1")
+        }
+    }
+    
+    private func resetAllData() {
+        // Reset to default plan
+        vm.plan = defaultPlan()
+        vm.transactions = []
+        vm.previewAmount = "1000"
+        vm.previewMovesTier = []
+        vm.previewMovesDetailed = []
+        
+        // Save the reset state
+        vm.save()
+        
+        // Clear transaction history
+        Task {
+            await HistoryStore.shared.clear()
+            await vm.load() // Reload to ensure everything is fresh
+        }
+        
+        // Provide feedback
+        let notificationFeedback = UINotificationFeedbackGenerator()
+        notificationFeedback.notificationOccurred(.success)
+    }
+    
+    private func resetOnboarding() {
+        OnboardingPreferences.hasCompletedOnboarding = false
+        
+        // Provide feedback
+        let notificationFeedback = UINotificationFeedbackGenerator()
+        notificationFeedback.notificationOccurred(.success)
     }
 }
 

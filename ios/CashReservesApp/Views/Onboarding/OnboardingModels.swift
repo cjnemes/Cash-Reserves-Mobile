@@ -17,8 +17,6 @@ enum OnboardingContent {
     case conceptExplanation
     case tierDemo
     case allocationDemo
-    case firstTierSetup
-    case firstAccountSetup
     case completion
 }
 
@@ -35,12 +33,6 @@ final class OnboardingViewModel: ObservableObject {
     @Published var demoAllocationAmount: String = "2500"
     @Published var showingAllocationPreview: Bool = false
     
-    // First tier setup
-    @Published var firstTierName: String = ""
-    @Published var firstTierPurpose: String = ""
-    @Published var firstTierTarget: String = ""
-    @Published var firstAccountName: String = ""
-    @Published var firstAccountBalance: String = ""
     
     let steps: [OnboardingStep] = [
         OnboardingStep(
@@ -72,22 +64,8 @@ final class OnboardingViewModel: ObservableObject {
             showProgress: true
         ),
         OnboardingStep(
-            title: "Create Your First Tier",
-            subtitle: "Set up your emergency fund or financial goal",
-            content: .firstTierSetup,
-            canSkip: true,
-            showProgress: true
-        ),
-        OnboardingStep(
-            title: "Add Your First Account",
-            subtitle: "Connect a bank account to your tier",
-            content: .firstAccountSetup,
-            canSkip: true,
-            showProgress: true
-        ),
-        OnboardingStep(
-            title: "You're All Set!",
-            subtitle: "Start building your financial security today",
+            title: "You're Ready to Start!",
+            subtitle: "Your complete 6-tier system is set up and ready to customize",
             content: .completion,
             canSkip: false,
             showProgress: false
@@ -104,17 +82,7 @@ final class OnboardingViewModel: ObservableObject {
     }
     
     var canGoNext: Bool {
-        switch currentStep.content {
-        case .firstTierSetup:
-            return !firstTierName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-                   !firstTierPurpose.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-                   Double(firstTierTarget) != nil && Double(firstTierTarget)! > 0
-        case .firstAccountSetup:
-            return !firstAccountName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-                   Double(firstAccountBalance) != nil && Double(firstAccountBalance)! >= 0
-        default:
-            return true
-        }
+        return true
     }
     
     var progress: Double {
@@ -147,9 +115,6 @@ final class OnboardingViewModel: ObservableObject {
     }
     
     func skipCurrentStep() {
-        if currentStep.content == .firstTierSetup || currentStep.content == .firstAccountSetup {
-            hasSkippedSetup = true
-        }
         nextStep()
     }
     
@@ -175,8 +140,8 @@ final class OnboardingViewModel: ObservableObject {
                 color: .blue
             ),
             DemoTier(
-                name: "Tier 2: Emergency",
-                purpose: "3-6 months of expenses",
+                name: "Tier 2: Emergency Fund",
+                purpose: "Major life disruptions",
                 target: 15000,
                 current: 12000,
                 priority: 2,
@@ -184,7 +149,7 @@ final class OnboardingViewModel: ObservableObject {
             ),
             DemoTier(
                 name: "Tier 3: Major Repairs",
-                purpose: "Home & car maintenance",
+                purpose: "Home & vehicle maintenance",
                 target: 8000,
                 current: 3500,
                 priority: 3,
@@ -192,11 +157,27 @@ final class OnboardingViewModel: ObservableObject {
             ),
             DemoTier(
                 name: "Tier 4: Opportunities",
-                purpose: "Investment opportunities",
+                purpose: "Investment & growth",
                 target: 25000,
                 current: 8000,
                 priority: 4,
                 color: .purple
+            ),
+            DemoTier(
+                name: "Tier 5: Long-term Goals",
+                purpose: "Future major purchases",
+                target: 45000,
+                current: 12000,
+                priority: 5,
+                color: .indigo
+            ),
+            DemoTier(
+                name: "Tier 6: Legacy",
+                purpose: "Wealth preservation",
+                target: 100000,
+                current: 35000,
+                priority: 6,
+                color: .pink
             )
         ]
     }

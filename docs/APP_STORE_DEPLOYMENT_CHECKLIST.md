@@ -23,6 +23,7 @@
 ### **User Experience**
 - ✅ **Onboarding Flow**: Professional tutorial with financial disclaimers
 - ✅ **Custom App Icon**: Professional piggy bank design with tier visualization
+- ✅ **Intuitive Navigation**: Clear labeled buttons (Add Money + Tiers) on Dashboard
 - ✅ **Data Export**: JSON plan + CSV accounts/transactions export functionality
 - ✅ **Data Management**: Complete reset options for user control
 - ✅ **Dark Mode Support**: Full light/dark mode compatibility

@@ -38,9 +38,10 @@ A professional SwiftUI app that organizes cash reserves into 6 priority-based ti
 - **6-Tier System**: Buffer → Emergency → Repairs → Opportunities → Goals → Legacy
 - **Smart Allocation**: Automated distribution recommendations
 - **Visual Progress**: Tier completion tracking with color-coded UI
+- **Intuitive Navigation**: Clear Dashboard buttons (Add Money + Tiers) with professional UX
 - **Privacy First**: Local storage only, AES-256 encryption
 - **Export Ready**: JSON/CSV data export for user control
-- **Professional UX**: Custom icon, onboarding, settings integration
+- **Professional Polish**: Custom piggy bank icon, onboarding flow, dark mode support
 
 ## 📱 **App Store Submission**
 

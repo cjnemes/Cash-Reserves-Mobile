@@ -131,8 +131,7 @@ struct DashboardView: View {
                     vm.selectedTab = 1 // Tiers tab
                 }
             } label: {
-                Label("Manage Tiers", systemImage: "square.grid.2x2")
-                    .labelStyle(.iconOnly)
+                Label("Tiers", systemImage: "square.grid.2x2")
                     .frame(maxWidth: .infinity)
             }
             .secondaryButton()
